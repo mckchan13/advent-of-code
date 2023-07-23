@@ -2,33 +2,38 @@ import { readFile } from "fs/promises";
 
 async function main(): Promise<void> {
   const text = await readFile("../input.txt", { encoding: "utf-8" });
-  const matches = text.split("\n");
+  const matches: (oppMoveCode | myMoveCode | string)[] = text.split("\n");
 
-  const points = {
+  type moves = "rock" | "paper" | "scissors";
+  type outcome = "win" | "loss" | "draw";
+  type oppMoveCode = "A" | "B" | "C";
+  type myMoveCode = "X" | "Y" | "Z";
+
+  const points: Record<moves, number> = {
     rock: 1,
     paper: 2,
     scissors: 3,
   };
 
-  const matchPoints = {
+  const matchPoints: Record<outcome, number> = {
     loss: 0,
     draw: 3,
     win: 6,
   };
 
-  const opponentMoves = {
+  const opponentMoves: Record<oppMoveCode, moves> = {
     A: "rock",
     B: "paper",
     C: "scissors",
   };
 
-  const myMoves = {
+  const myMoves: Record<myMoveCode, moves> = {
     X: "rock",
     Y: "paper",
     Z: "scissors",
   };
 
-  const beats = {
+  const beats: Record<moves, moves> = {
     rock: "scissors",
     scissors: "paper",
     paper: "rock",
@@ -38,9 +43,9 @@ async function main(): Promise<void> {
 
   for (const match of matches) {
     if (match.length === 0) continue;
-    const [oppCode, myCode] = match.split(" ");
-    const oppMove = opponentMoves[oppCode];
-    const myMove = myMoves[myCode];
+    const [oppCode, myCode] = match.split(" ") as [oppMoveCode, myMoveCode];
+    const oppMove: moves = opponentMoves[oppCode];
+    const myMove: moves = myMoves[myCode];
 
     myPoints += points[myMove];
 

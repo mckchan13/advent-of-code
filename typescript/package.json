@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "start": "npx nodemon ./day1/index.ts"
+    "start": "npx nodemon ./day1/index.ts",
+    "dev"  : "npx nodemon ./day1/index.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^20.4.1",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
