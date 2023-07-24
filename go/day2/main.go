@@ -45,6 +45,7 @@ func main() {
 
 	myScore := 0
 
+	myScorePart2 := 0
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
 		stringSlice := strings.Split(line, " ")
@@ -52,6 +53,7 @@ func main() {
 		opponentMoveCode := stringSlice[0]
 		myMoveCode := stringSlice[1]
 
+		// Part 1 Calculation
 		oppMove := moveCode[opponentMoveCode]
 		myMove := moveCode[myMoveCode]
 		if oppMove == myMove {
@@ -61,7 +63,24 @@ func main() {
 		} else {
 			myScore += rpsPointsMap[myMove]
 		}
+
+		// Part 2 Calculation
+		// X => need to lose, so return a move that is moveBeats[oppMove]
+		// Y => draw so just play the same move
+		// Z => need to win, so play moveBeats[moveBeats[oppMove]]
+
+		if myMoveCode == "X" {
+			myMove := moveBeats[oppMove]
+			myScorePart2 += rpsPointsMap[myMove]
+		} else if myMoveCode == "Z" {
+			myMove := moveBeats[moveBeats[oppMove]]
+			myScorePart2 += rpsPointsMap[myMove] + 6
+		} else {
+			myScorePart2 += rpsPointsMap[oppMove] + 3
+		}
+
 	}
 
 	fmt.Println(myScore)
+	fmt.Println(myScorePart2)
 }

@@ -1,7 +1,10 @@
 import { readFile } from "fs/promises";
+import path from "path";
 
 async function main(): Promise<void> {
-  const text = await readFile("../input.txt", { encoding: "utf-8" });
+  const text = await readFile(path.resolve(__dirname, "input.txt"), {
+    encoding: "utf-8",
+  });
   const matches: (oppMoveCode | myMoveCode | string)[] = text.split("\n");
 
   type moves = "rock" | "paper" | "scissors";
@@ -53,9 +56,30 @@ async function main(): Promise<void> {
     else if (beats[myMove] === oppMove) myPoints += matchPoints.win;
   }
 
-  console.log(myPoints);
-}
+  console.log("Part 1 Answer:", myPoints);
 
+  let myPointsPart2 = 0;
+
+  for (const match of matches) {
+    if (match.length === 0) continue;
+    const [oppCode, myCode] = match.split(" ") as [oppMoveCode, myMoveCode];
+    const oppMove: moves = opponentMoves[oppCode];
+    // X means I need to lose => myMove = beats[oppMove]
+    // Y means I need a draw => need to play the same move
+    // Z means I need to win => myMove = beats[beats[oppMove]]
+
+    if (myCode === "Y") {
+      // draw scenario
+      myPointsPart2 += points[oppMove] + matchPoints.draw;
+    } else if (myCode === "Z") {
+      const myMove = beats[beats[oppMove]];
+      myPointsPart2 += points[myMove] + matchPoints.win;
+    } else {
+      myPointsPart2 += points[beats[oppMove]];
+    }
+  }
+  console.log("Part 2 Answer: ", myPointsPart2);
+}
 main();
 
 /**

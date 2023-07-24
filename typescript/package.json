@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "npx nodemon ./day1/index.ts",
-    "dev"  : "npx nodemon ./day1/index.ts"
+    "dev"  : "npx nodemon ./day2/index.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
