@@ -83,5 +83,6 @@ async function main(): Promise<void> {
 main();
 
 /**
- * Answer is 12535
+ * Part 1 Answer is 12535
+ * Part 2 Answer is 15457
  */
